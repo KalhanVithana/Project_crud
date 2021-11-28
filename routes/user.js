@@ -19,19 +19,17 @@ const DOMAIN = 'sandboxaaa8b9d82b124769a01b8a4b4418ca30.mailgun.org';
 const mg = mailgun({apiKey: 'f2a488f1c4eae5bf1d9214c7ce41c823-30b9cd6d-1a5b02f4', domain: DOMAIN});
 
 
-
-sgMail.setApiKey('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');
-
-
-
+// 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
+//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
+sgMail.setApiKey('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');
 
 
 
 
 
-router.route('/y').post(verifyToken,async(req, res) => {
+router.route('/y').post(async(req, res) => {
 
-    res.send('hi')
+    // res.send('hi')
     // const data = {
     //     from: 'Excited User <me@samples.mailgun.org>',
     //     to: 'kalhanmanuj@gmail.com',
@@ -53,11 +51,11 @@ router.route('/register').post(async (req, res) => {
         const validateSchema = await Authschema.validateAsync(req.body);
 
         const existingUser = await UserSchema.findOne({ email: validateSchema.email });
-        if (existingUser) {
+        // if (existingUser) {
 
-            return res.status(400).json({ msg: `user alreay exists  ` })
+        //     return res.status(400).json({ msg: `user alreay exists  ` })
             
-        }
+        // }
         const salt = await bcrypt.genSalt();
 
         const passwordhash = await bcrypt.hash(password, salt);
@@ -77,7 +75,7 @@ router.route('/register').post(async (req, res) => {
         const saveUser = await NewUser.save();
         const msg = {
             to: `${email}`,
-            from: 'kalhanmanuj@gmail.com', 
+            from: 'oshanfernando133@gmail.com', 
             subject: 'Sending with Twilio SendGrid is Fun',
             text: `verication `,
             html: `<strong>verication code  ${randomstring}</strong>`,
@@ -85,7 +83,10 @@ router.route('/register').post(async (req, res) => {
           //ES6
           sgMail
             .send(msg)
-            .then(() => {}, error => {
+            .then(() => {
+                console
+                .log("sucess",msg)
+            }, error => {
               console.error(error);
           
               if (error.response) {
